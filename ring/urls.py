@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
-from notifications.views import SendMailView, FlowerViewSet
+from notifications.views import SendMailView, FlowerViewSet, MailListView
 
 router = DefaultRouter()
 router.register(r'flowers', FlowerViewSet)
@@ -26,5 +26,6 @@ router.register(r'flowers', FlowerViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('mails/send', SendMailView.as_view()),
-    path('api/', include(router.urls))
+    path('api/', include(router.urls)),
+    path('api/mails', MailListView.as_view())
 ]

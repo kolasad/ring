@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from notifications.models import Flower
+from notifications.models import Flower, Mail
 
 
 class SendMailSerializer(serializers.Serializer):
@@ -19,3 +19,9 @@ class FlowerListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Flower
         fields = ['color', 'name']
+
+
+class MailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Mail
+        fields = '__all__'
