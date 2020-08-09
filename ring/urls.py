@@ -27,5 +27,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('mails/send', SendMailView.as_view()),
     path('api/', include(router.urls)),
-    path('api/mails', MailListView.as_view())
+    path('api/mails/', MailListView.as_view()),
+    path('authorization/', include('authorization.urls'))
 ]
