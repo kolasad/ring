@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
-from notifications.models import Flower
+from notifications.models import Flower, Mail
 from notifications.serializers import SendMailSerializer, FlowerSerializer, FlowerListSerializer
 
 
@@ -15,11 +15,17 @@ class SendMailView(APIView):
     def post(self, request):
         serializer = SendMailSerializer(data=request.data)
         if serializer.is_valid():
+            subject = serializer.validated_data['subject']
+            message = serializer.validated_data['message']
             send_mail(
-                'New email message title',
-                serializer.validated_data['message'],
+                subject,
+                message,
                 from_email=settings.EMAIL_FROM,
                 recipient_list=[serializer.validated_data['recipient']]
+            )
+            Mail.objects.create(
+                subject=subject,
+                message=message
             )
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

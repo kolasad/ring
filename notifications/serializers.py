@@ -4,6 +4,7 @@ from notifications.models import Flower
 
 
 class SendMailSerializer(serializers.Serializer):
+    subject = serializers.CharField(max_length=100)
     message = serializers.CharField(max_length=5000)
     recipient = serializers.EmailField()
 
