@@ -1,7 +1,7 @@
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User, Group
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from authorization.forms import RegisterUserForm, LoginUserForm
 
@@ -17,7 +17,7 @@ def register_view(request):
                 form.cleaned_data['password']
             )
             user.save()
-            group = Group.objects.get(name='users')  # must be created before used
+            group = Group.objects.get(name='users')  # must be created before used, create through django admin
             user.groups.add(group)
             messages.add_message(request, messages.SUCCESS, f"Welcome {form.cleaned_data['login']}!!")
 
@@ -44,3 +44,9 @@ def login_view(request):
         'authorization/login.html',
         context={'form': form}
     )
+
+
+def logout_view(request):
+    logout(request)
+
+    return redirect(login_view)

@@ -14,6 +14,9 @@ from notifications.serializers import SendMailSerializer, FlowerSerializer, Flow
 
 class SendMailView(APIView):
     def post(self, request):
+        if not request.user.is_authenticated:
+            return Response('unauthorized', status=status.HTTP_401_UNAUTHORIZED)
+
         serializer = SendMailSerializer(data=request.data)
         if serializer.is_valid():
             subject = serializer.validated_data['subject']
