@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.models import User
 from django.shortcuts import render
 
@@ -15,6 +16,8 @@ def register_view(request):
                 form.cleaned_data['password']
             )
             user.save()
+            messages.add_message(request, messages.SUCCESS, f"Welcome {form.cleaned_data['login']}!!")
+
     return render(
         request,
         'authorization/register.html',
